@@ -3,7 +3,17 @@ guid: b9ffabf98d61a8841819574af3813921
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Table_Cube.008_IronMat
+    second: {fileID: 2100000, guid: 482f6c77fb9c47b4aa1e8491dd173ed2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Table_Cube.008_WoodMat
+    second: {fileID: 2100000, guid: 55d3597cc88974f4d9035cb640db057f, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
