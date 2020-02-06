@@ -232,6 +232,11 @@ namespace NVIDIA.Flex
             {
                 int[] indices = m_scene.container.fluidIndices;
                 int indexCount = m_scene.container.fluidIndexCount;
+
+                if(indices.Length <= 0) {
+                    return;
+                }
+
                 if (m_indexBuffer != null && indexCount != m_indexBuffer.count) // @@@
                 {
                     m_indexBuffer.Release();

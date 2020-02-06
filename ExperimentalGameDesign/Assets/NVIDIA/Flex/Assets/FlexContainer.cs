@@ -1,4 +1,4 @@
-﻿// This code contains NVIDIA Confidential Information and is disclosed to you
+// This code contains NVIDIA Confidential Information and is disclosed to you
 // under a form of NVIDIA software license agreement provided separately to you.
 //
 // Notice
@@ -219,7 +219,7 @@ namespace NVIDIA.Flex
         public int[] fluidIndices { get { return m_fluidIndices; } }
         public int fluidIndexCount { get { return m_fluidIndexCount; } }
 
-        public int maxParticles { get { return m_maxParticles; } }
+        public int maxParticles { get { return m_maxParticles; } set { m_maxParticles = value; } }
 
         public Material fluidMaterial { get { return m_fluidMaterial; } }
 
@@ -248,9 +248,17 @@ namespace NVIDIA.Flex
             if (m_actorCount == 0) CreateContainer();
             ++m_actorCount;
         }
+        public void AddActor() {
+            if (m_actorCount == 0) CreateContainer();
+            ++m_actorCount;
+        }
 
         public void RemoveActor(FlexActor actor)
         {
+            --m_actorCount;
+            if (m_actorCount == 0) DestroyContainer();
+        }
+        public void RemoveActor() {
             --m_actorCount;
             if (m_actorCount == 0) DestroyContainer();
         }
@@ -432,6 +440,7 @@ namespace NVIDIA.Flex
                 CreateContainer();
                 if (m_actorCount > 0) onAfterRecreate();
                 m_recreateSolver = false;
+                Debug.Log("foo");
             }
 
             m_substepCount = Mathf.Max(m_substepCount, 1);

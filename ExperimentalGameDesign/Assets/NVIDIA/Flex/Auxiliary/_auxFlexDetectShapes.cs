@@ -111,7 +111,7 @@ namespace NVIDIA.Flex
                     Collider collider = item.Key;
                     ShapeData shapeData = item.Value;
 
-                    if (!(collider is SphereCollider) && !(collider is CapsuleCollider) && !(collider is BoxCollider) && !(collider is MeshCollider))
+                    if (!(collider is SphereCollider) && !(collider is CapsuleCollider) && !(collider is BoxCollider) && !(collider is MeshCollider) || collider == null)
                         continue;
 
                     m_geometryBuffer.Set(shapeIndex, shapeData.geometry);

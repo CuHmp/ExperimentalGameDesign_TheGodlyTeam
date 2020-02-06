@@ -20,7 +20,9 @@ public class PlayerScript : MonoBehaviour {
 
     private bool hasReleased = false;
     private int releaseTimer = 10;
-
+    private bool IsHoldingGlass = false;
+    public BottlePlug plug;
+    private bool ResetBottle = false;
     // Start is called before the first frame update
     void Start() {
         cursor = GetComponentInChildren<Transform>();
@@ -42,6 +44,17 @@ public class PlayerScript : MonoBehaviour {
             move_cursor(Vector3.back);
         }
 
+        if (Input.GetKey(move_keys[4]) && !ResetBottle) {
+            bottle.transform.rotation = transform.rotation;
+            plug.ResetBottle();
+
+            plug = null;
+            bottle = null;
+            ResetBottle = true;
+            hasReleased = true;
+            Debug.Log("doing stuff");
+        }
+
         if (bottle) {
             bottle.transform.position = cursor.position;
 
@@ -61,9 +74,10 @@ public class PlayerScript : MonoBehaviour {
         }
         if (hasReleased) {
             releaseTimer--;
-            if(releaseTimer < 0) {
+            if(releaseTimer < 0 && !IsHoldingGlass) {
                 hasReleased = false;
                 releaseTimer = 10;
+                ResetBottle = false;
             }
         }
     }
@@ -76,6 +90,7 @@ public class PlayerScript : MonoBehaviour {
         if(other.gameObject.tag == "Bottle" && !hasReleased) {
             bottle = other.gameObject;
             bottle.GetComponent<Rigidbody>().useGravity = false;
+            plug = bottle.GetComponent<BottlePlug>();
         }
     }
 }
