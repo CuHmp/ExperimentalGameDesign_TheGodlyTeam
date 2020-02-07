@@ -128,8 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dc7ea132e8d284b95e3758f578dd24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  rotateX: {fileID: 0}
+  MinMaxBottleContent: {x: 800, y: 1500}
   finished_pouring: 0
   prefab: {fileID: 1181016371695439210}
 --- !u!54 &1181016371695439214

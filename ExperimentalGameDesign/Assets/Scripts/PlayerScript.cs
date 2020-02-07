@@ -21,8 +21,9 @@ public class PlayerScript : MonoBehaviour {
     private bool hasReleased = false;
     private int releaseTimer = 10;
     private bool IsHoldingGlass = false;
-    public BottlePlug plug;
+    private BottlePlug plug;
     private bool ResetBottle = false;
+    
     // Start is called before the first frame update
     void Start() {
         cursor = GetComponentInChildren<Transform>();
@@ -44,15 +45,13 @@ public class PlayerScript : MonoBehaviour {
             move_cursor(Vector3.back);
         }
 
-        if (Input.GetKey(move_keys[4]) && !ResetBottle) {
-            bottle.transform.rotation = transform.rotation;
+        if (Input.GetKey(move_keys[4]) && !ResetBottle && plug != null) {
             plug.ResetBottle();
-
+            ParticleDetection.resetLiquidPlayer1();
             plug = null;
             bottle = null;
             ResetBottle = true;
             hasReleased = true;
-            Debug.Log("doing stuff");
         }
 
         if (bottle) {

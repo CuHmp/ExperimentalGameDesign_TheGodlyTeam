@@ -608,6 +608,17 @@ namespace NVIDIA.Flex
             ReleaseLibrary();
         }
 
+        public void ResetParticle() { // removes the particles and restore the buffer.
+            m_fluidIndices = new int[0];
+            m_fluidIndexCount = 0;
+            m_particleArray = null;
+
+            if (m_actorCount > 0) onBeforeRecreate();
+            DestroyContainer();
+            CreateContainer();
+            if (m_actorCount > 0) onAfterRecreate();
+        }
+
         void FixedUpdate()
         {
             UpdateParams();
