@@ -9,9 +9,12 @@ public class PlayerScript : MonoBehaviour {
     public KeyCode tilt_down_key;
     public KeyCode tilt_up_key;
     public KeyCode realse_key;
+    public KeyCode drink_key = KeyCode.Space;
 
     public KeyCode[] move_keys;
 
+    public static int drunkiness = 0;
+    public int maxDrunkiness;
     private GameObject bottle;
 
     private Transform cursor;
@@ -31,23 +34,16 @@ public class PlayerScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKey(move_keys[0])) {
-            move_cursor(Vector3.right);
-        }
-        if (Input.GetKey(move_keys[1])) {
-            move_cursor(Vector3.forward);
-        }
-        if (Input.GetKey(move_keys[2])) {
-
-            move_cursor(Vector3.left);
-        }
-        if (Input.GetKey(move_keys[3])) {
-            move_cursor(Vector3.back);
+        if(drunkiness >= maxDrunkiness) {
+            Debug.LogError("You black out");
         }
 
-        if (Input.GetKey(move_keys[4]) && !ResetBottle && plug != null) {
+
+        movement();
+
+        if (Input.GetKey(drink_key) && !ResetBottle && plug != null) {
             plug.ResetBottle();
-            ParticleDetection.resetLiquidPlayer1();
+            Debug.Log("Drunkiness: " + drunkiness);
             plug = null;
             bottle = null;
             ResetBottle = true;
@@ -78,6 +74,22 @@ public class PlayerScript : MonoBehaviour {
                 releaseTimer = 10;
                 ResetBottle = false;
             }
+        }
+    }
+
+    void movement() {
+        if (Input.GetKey(move_keys[EventManager.getInput()[0]])) {
+            move_cursor(Vector3.right);
+        }
+        if (Input.GetKey(move_keys[EventManager.getInput()[1]])) {
+            move_cursor(Vector3.forward);
+        }
+        if (Input.GetKey(move_keys[EventManager.getInput()[2]])) {
+
+            move_cursor(Vector3.left);
+        }
+        if (Input.GetKey(move_keys[EventManager.getInput()[3]])) {
+            move_cursor(Vector3.back);
         }
     }
 
