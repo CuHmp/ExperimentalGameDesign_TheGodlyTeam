@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bottle
   - Glass
+  - DrunkScreen
+  - DrunkMeter
   layers:
   - Default
   - TransparentFX

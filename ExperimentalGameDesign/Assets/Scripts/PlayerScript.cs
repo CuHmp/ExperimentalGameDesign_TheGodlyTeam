@@ -14,7 +14,13 @@ public class PlayerScript : MonoBehaviour {
     public KeyCode[] move_keys;
 
     public static int drunkiness = 0;
+    public static int bartender_rage = 0;
     public int maxDrunkiness;
+    public int maxRage;
+
+    public AudioClip drinkGulp;
+    private AudioSource source;
+
     private GameObject bottle;
 
     private Transform cursor;
@@ -29,21 +35,30 @@ public class PlayerScript : MonoBehaviour {
     
     // Start is called before the first frame update
     void Start() {
+        source = GetComponent<AudioSource>();
         cursor = GetComponentInChildren<Transform>();
     }
 
     // Update is called once per frame
     void Update() {
         if(drunkiness >= maxDrunkiness) {
-            Debug.LogError("You black out");
+            EventManager.getDrunkScreen().color = new Color(EventManager.getDrunkScreen().color.r, EventManager.getDrunkScreen().color.g, EventManager.getDrunkScreen().color.b, 1);
+            //Debug.LogError("You black out");
+        }
+
+        if (bartender_rage >= maxRage) {
+            EventManager.getDrunkScreen().color = new Color(1, 0.25f, 0.25f, 1);
+            //Debug.LogError("You were thrown out");
         }
 
 
         movement();
 
         if (Input.GetKey(drink_key) && !ResetBottle && plug != null) {
+            source.PlayOneShot(drinkGulp);
             plug.ResetBottle();
             Debug.Log("Drunkiness: " + drunkiness);
+            Debug.Log("Rage: " + bartender_rage);
             plug = null;
             bottle = null;
             ResetBottle = true;
@@ -53,19 +68,21 @@ public class PlayerScript : MonoBehaviour {
         if (bottle) {
             bottle.transform.position = cursor.position;
 
-            float deg = rotate_speed * Mathf.Deg2Rad;
+            float deg = EventManager.getAutoTilt();
 
             if (Input.GetKey(tilt_up_key)) {
-                bottle.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f), -deg);
+                deg -= rotate_speed * Mathf.Deg2Rad * 2;
+                
             }
             if (Input.GetKey(tilt_down_key)) {
-                bottle.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f), deg);
+                deg += rotate_speed * Mathf.Deg2Rad * 2;
             }
             if (Input.GetKey(realse_key)) {
                 hasReleased = true;
                 bottle.GetComponent<Rigidbody>().useGravity = true;
                 bottle = null;
             }
+            bottle.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f), deg);
         }
         if (hasReleased) {
             releaseTimer--;

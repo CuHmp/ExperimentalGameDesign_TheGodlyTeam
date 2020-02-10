@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class BottlePlug : MonoBehaviour {
     public Vector2 MinMaxBottleContent;
-    public GameObject prefab;
+    public GameObject[] prefab;
     
-    
-
+    public enum alcoholType {
+        Cognac,
+        Wisky,
+        Tequila,
+        Absinthe,
+    }
+    public alcoholType type;
     public int liquid_in_glass = 0;
     public int bartender_rage = 0;
 
@@ -30,7 +35,7 @@ public class BottlePlug : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (rotateX.eulerAngles.x <= 270 && rotateX.eulerAngles.x >= 40 && !isFinishedPouring) {
+        if (rotateX.eulerAngles.x <= 315 && rotateX.eulerAngles.x >= 40 && !isFinishedPouring) {
             source.isActive = true;
             isPouring = true;
         }
@@ -43,7 +48,33 @@ public class BottlePlug : MonoBehaviour {
             isFinishedPouring = true;
         }
         if(ParticleDetection.isInPouringZoon && isPouring && !isFinishedPouring) {
-            liquid_in_glass++;
+            switch ((int)type) {
+                case 1: 
+                {
+                    liquid_in_glass++;
+                    break;
+                }
+                case 2: 
+                {
+                    liquid_in_glass += 2;
+                    break;
+                }
+                case 3: 
+                {
+                    liquid_in_glass += 4;
+                    break;
+                }
+                case 4: 
+                {
+                    liquid_in_glass += 5;
+                    break;
+                }
+                default: 
+                {
+                    liquid_in_glass++;
+                    break;
+                }
+            }
         }
         else if(!ParticleDetection.isInPouringZoon && isPouring && !isFinishedPouring) {
             bartender_rage++;
@@ -56,17 +87,19 @@ public class BottlePlug : MonoBehaviour {
         int remaining = isFinishedPouring ? bottleContent : source.container.maxParticles - source.indexCount; // counting how much liquid is left in the new bottle
         GameObject tmp;
         if (!isFinishedPouring) {
-            tmp = Instantiate(prefab, transform.position, transform.rotation); // create a new bottle on the same position as the other one
+            tmp = Instantiate(prefab[Random.Range(0,prefab.Length)], transform.position, transform.rotation); // create a new bottle on the same position as the other one
         }
         else {
             Quaternion rot = new Quaternion(0,0,0,0);
-            tmp = Instantiate(prefab, BottleSpawnPosition, rot); // create a new bottle
+            tmp = Instantiate(prefab[Random.Range(0, prefab.Length)], BottleSpawnPosition, rot); // create a new bottle
         }
+        
         tmp.GetComponentInChildren<NVIDIA.Flex.FlexSourceActor>().container.maxParticles = remaining; // set the max particles in the new bottle, this is made so that the new bottle do not start with the same amount of liquid all the time
         tmp.GetComponentInChildren<BottlePlug>().isFinishedPouring = false; // stop it from inheriting the bool as the bottle with max content would still say it was finished_pouring.
         tmp.GetComponent<Rigidbody>().useGravity = true; // so it gets to the ground as the player releasing the bottle when they reset the bottle.
-        tmp.name = gameObject.name;
+        tmp.GetComponentInChildren<NVIDIA.Flex.FlexSourceActor>().container.ResetParticle();
         PlayerScript.drunkiness += liquid_in_glass;
+        PlayerScript.bartender_rage += bartender_rage;
         source.container.ResetParticle(); // removes all of the particles
         Destroy(gameObject); // destroy the current game object so that the new one can take its place
     }

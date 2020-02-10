@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wisky
+  m_Name: Cognac
   m_Shader: {fileID: 4800000, guid: f4dc11f41f8ff354087865a671be50d7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -62,7 +62,7 @@ Material:
     - _DstBlend: 0
     - _Fresnel: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.777
+    - _Glossiness: 0.885
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
@@ -74,6 +74,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.9150943, g: 0.7414752, b: 0.21150766, a: 1}
+    - _Color: {r: 0.5377358, g: 0.17974801, b: 0.03804734, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Specular: {r: 0.9245283, g: 0.8133738, b: 0.5538448, a: 1}
+    - _Specular: {r: 0.7924528, g: 0.48220006, b: 0.48220006, a: 1}
